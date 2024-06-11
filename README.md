@@ -9,27 +9,15 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
 ```
 
-## Getting started with p5.js editor
+## Getting Started with p5.js editor
   * Single Byte: https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
   * Multiple Bytes: https://editor.p5js.org/tetsuakibaba/sketches/bMXPV-gvu
 
-## Getting Started
-First of all, please upload the sketch to your arduino device. 
-```cpp
-void setup() {
-  Serial.begin(9600);
-}
-int count = 0;
-void loop() {
-  Serial.write(count);
-  count++;
-  delay(100);
-}
-```
+
 
 ## API
 ### Serial class
-> [!TIPS]
+> [!TIP]
 > We recommend using the `gotCSV()` function when you want to receive multiple values at once.
 
 #### `Serial()`
