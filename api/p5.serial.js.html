@@ -43,13 +43,27 @@ class Serial {
      */
     constructor() {
         this.is_opened = false;
+        this.defaultGotCSV = this.gotCSV;
+        this.defaultGotByte = this.gotByte;
+        this.defaultGotBytes = this.gotBytes;
+        this.buffer = "";
+    }
+
+    isGotCSVOverridden() {
+        return this.gotCSV != this.defaultGotCSV;
+    }
+    isGotByteOverridden() {
+        return this.gotByte != this.defaultGotByte;
+    }
+    isGotBytesOverridden() {
+        return this.gotBytes != this.defaultGotBytes;
     }
 
     /**
      * Request to open serial port
      * 
      * @async
-     * @param {int}[9600] br - baud rate
+     * @param {int}[br=9600] br - baud rate
      * 
      */
     async begin(br = 9600) {
@@ -67,18 +81,52 @@ class Serial {
                 `vendorId: ${this.portInfo.usbVendorId} | productId: ${this.portInfo.usbProductId} `
             );
             this.is_opened = true;
-
+            this.buffer = "";
             while (this.port.readable &amp;&amp; this.is_opened) {
-                //console.log(port.readable);
                 const reader = this.port.readable.getReader();
                 try {
                     while (true) {
                         const { value, done } = await reader.read();
-                        // Here we get serial value(value) from your arduino .
-                        for (let v of value) {
-                            this.gotByte(v);
+                        // gotCSVがオーバーライドされている場合は、改行が来るまでバッファにためる
+                        // If gotCSV is overridden, buffer the data until a line feed comes.
+                        if (this.isGotCSVOverridden()) {
+                            // 新しいデータをデコードしてバッファに追加
+                            this.buffer += new TextDecoder().decode(value);
+
+                            // バッファ内に改行が含まれているか確認
+                            if (this.buffer.includes("\n")) {
+
+                                // '\r'を削除
+                                this.buffer = this.buffer.replace("\r", "");
+                                // 改行でバッファを分割
+                                const lines = this.buffer.split("\n");
+
+                                // 最後の要素をバッファに保持（不完全な行の可能性があるため）
+                                this.buffer = lines.pop();
+
+                                // 各行を処理
+                                // 各行を処理
+                                for (let line of lines) {
+                                    // カンマ区切りの文字列を配列に変換して渡す
+                                    const csvArray = line.split(",");
+                                    this.gotCSV(csvArray);
+                                }
+                            }
                         }
-                        this.gotBytes(value);
+
+
+                        if (this.isGotByteOverridden()) {
+                            for (let v of value) {
+                                this.gotByte(v);
+                            }
+                        }
+
+
+                        if (this.isGotBytesOverridden()) {
+                            this.gotBytes(value);
+                        }
+
+
                         if (this.is_opened == false) break;
                     }
                 } catch (error) {
@@ -125,6 +173,26 @@ class Serial {
         writer.releaseLock();
     }
 
+
+    async writeCSV(string) {
+
+        // もし文字列が空であればなにもしない
+        // do nothing if the string is empty.
+        if (string == "") {
+            return;
+        }
+
+        // もし最後が改行でない場合は改行を追加する
+        // add '\n' if the last character is not '\n'.
+        if (string.charAt(string.length - 1) != "\n") {
+            string += "\n";
+            console.warn("added '\n'. because the last character is not '\n'.");
+        }
+
+        const writer = this.port.writable.getWriter();
+        await writer.write(new TextEncoder().encode(string));
+        writer.releaseLock();
+    }
     /**
      * 
      * @param {string} values 
@@ -169,6 +237,13 @@ class Serial {
      * @param {array} values 
      */
     gotBytes(values) {
+    }
+
+    /**
+     * This method is called when a CSV string is received.
+     * @param {array} array 
+     */
+    gotCSV(array) {
     }
 }
 </code></pre></article></section></div></div></div><div class="search-container" id="PkfLWpAbet" style="display:none"><div class="wrapper" id="iCxFxjkHbP"><button class="icon-button search-close-button" id="VjLlGakifb" aria-label="close search"><svg><use xlink:href="#close-icon"></use></svg></button><div class="search-box-c"><svg><use xlink:href="#search-icon"></use></svg> <input type="text" id="vpcKVYIppa" class="search-input" placeholder="Search..." autofocus></div><div class="search-result-c" id="fWwVHRuDuN"><span class="search-result-c-text">Type anything to view search result</span></div></div></div><div class="mobile-menu-icon-container"><button class="icon-button" id="mobile-menu" data-isopen="false" aria-label="menu"><svg><use xlink:href="#menu-icon"></use></svg></button></div><div id="mobile-sidebar" class="mobile-sidebar-container"><div class="mobile-sidebar-wrapper"><div class="mobile-nav-links"></div><div class="mobile-sidebar-items-c"><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-classes"><div>Classes</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="Serial.html">Serial</a></div></div></div><div class="mobile-navbar-actions"><div class="navbar-right-item"><button class="icon-button search-button" aria-label="open-search"><svg><use xlink:href="#search-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button theme-toggle" aria-label="toggle-theme"><svg><use class="theme-svg-use" xlink:href="#light-theme-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button font-size" aria-label="change-font-size"><svg><use xlink:href="#font-size-icon"></use></svg></button></div></div></div></div><script type="text/javascript" src="scripts/core.min.js"></script><script src="scripts/search.min.js" defer="defer"></script><script src="scripts/third-party/fuse.js" defer="defer"></script><script type="text/javascript">var tocbotInstance=tocbot.init({tocSelector:"#eed4d2a0bfd64539bb9df78095dec881",contentSelector:".main-content",headingSelector:"h1, h2, h3",hasInnerContainers:!0,scrollContainer:".main-content",headingsOffset:130,onClick:bringLinkToView})</script></body></html>

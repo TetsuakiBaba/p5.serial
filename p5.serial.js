@@ -41,13 +41,27 @@ class Serial {
      */
     constructor() {
         this.is_opened = false;
+        this.defaultGotCSV = this.gotCSV;
+        this.defaultGotByte = this.gotByte;
+        this.defaultGotBytes = this.gotBytes;
+        this.buffer = "";
+    }
+
+    isGotCSVOverridden() {
+        return this.gotCSV != this.defaultGotCSV;
+    }
+    isGotByteOverridden() {
+        return this.gotByte != this.defaultGotByte;
+    }
+    isGotBytesOverridden() {
+        return this.gotBytes != this.defaultGotBytes;
     }
 
     /**
      * Request to open serial port
      * 
      * @async
-     * @param {int}[9600] br - baud rate
+     * @param {int}[br=9600] br - baud rate
      * 
      */
     async begin(br = 9600) {
@@ -65,18 +79,52 @@ class Serial {
                 `vendorId: ${this.portInfo.usbVendorId} | productId: ${this.portInfo.usbProductId} `
             );
             this.is_opened = true;
-
+            this.buffer = "";
             while (this.port.readable && this.is_opened) {
-                //console.log(port.readable);
                 const reader = this.port.readable.getReader();
                 try {
                     while (true) {
                         const { value, done } = await reader.read();
-                        // Here we get serial value(value) from your arduino .
-                        for (let v of value) {
-                            this.gotByte(v);
+                        // gotCSVがオーバーライドされている場合は、改行が来るまでバッファにためる
+                        // If gotCSV is overridden, buffer the data until a line feed comes.
+                        if (this.isGotCSVOverridden()) {
+                            // 新しいデータをデコードしてバッファに追加
+                            this.buffer += new TextDecoder().decode(value);
+
+                            // バッファ内に改行が含まれているか確認
+                            if (this.buffer.includes("\n")) {
+
+                                // '\r'を削除
+                                this.buffer = this.buffer.replace("\r", "");
+                                // 改行でバッファを分割
+                                const lines = this.buffer.split("\n");
+
+                                // 最後の要素をバッファに保持（不完全な行の可能性があるため）
+                                this.buffer = lines.pop();
+
+                                // 各行を処理
+                                // 各行を処理
+                                for (let line of lines) {
+                                    // カンマ区切りの文字列を配列に変換して渡す
+                                    const csvArray = line.split(",");
+                                    this.gotCSV(csvArray);
+                                }
+                            }
                         }
-                        this.gotBytes(value);
+
+
+                        if (this.isGotByteOverridden()) {
+                            for (let v of value) {
+                                this.gotByte(v);
+                            }
+                        }
+
+
+                        if (this.isGotBytesOverridden()) {
+                            this.gotBytes(value);
+                        }
+
+
                         if (this.is_opened == false) break;
                     }
                 } catch (error) {
@@ -123,6 +171,26 @@ class Serial {
         writer.releaseLock();
     }
 
+
+    async writeCSV(string) {
+
+        // もし文字列が空であればなにもしない
+        // do nothing if the string is empty.
+        if (string == "") {
+            return;
+        }
+
+        // もし最後が改行でない場合は改行を追加する
+        // add '\n' if the last character is not '\n'.
+        if (string.charAt(string.length - 1) != "\n") {
+            string += "\n";
+            console.warn("added '\n'. because the last character is not '\n'.");
+        }
+
+        const writer = this.port.writable.getWriter();
+        await writer.write(new TextEncoder().encode(string));
+        writer.releaseLock();
+    }
     /**
      * 
      * @param {string} values 
@@ -167,5 +235,12 @@ class Serial {
      * @param {array} values 
      */
     gotBytes(values) {
+    }
+
+    /**
+     * This method is called when a CSV string is received.
+     * @param {array} array 
+     */
+    gotCSV(array) {
     }
 }

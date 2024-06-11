@@ -61,45 +61,6 @@ Go to [DEMO page](https://tetsuakibaba.github.io/p5.serial/samples/minimal.html)
 </html>
 ```
 
-### p5.js style
-`sketch.js`
-```javascript:sketch.js
-let serial = Serial();
-let val = 0;
-function setup() {
-  createCanvas(400, 400);
-  document.querySelector('#button_connect").addEventListener('click', () => {
-    serial.begin();
-  });
-}
-function draw(){
-    background(220);
-    text(`Hello, p5.serial: ${val}`, 100, 100);
-    serial.gotByte = function (value) {
-        val = value;
-    }
-}
-```
-
-`index.html`
-```html:index.html
-<!DOCTYPE html>
-<html lang="en">
-  <head>    
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <main>
-      <button onclick="serial.begin();">connect</button>
-    </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
-    <script src="sketch.js"></script>
-  </body>
-</html>
-```
-
 ## API
 ### Serial class
 #### `Serial()`
@@ -134,6 +95,19 @@ serial.gotBytes = function(values) {
     console.log(values);
 }
 ```
+
+#### `Serial.gotCSV()`
+This function is called when a CSV string is received. We recommend using this function when you want to receive multiple values at once.
+
+```javascript
+serial.gotBytes = function(values) {
+    // if you send println('hello,world') from arduino, values is an array of number. ex) ['hello', 'world']    
+    for( v of values){
+        console.log(v); // hello, world
+    }
+}
+```
+
 #### `Serial.writeByte()`
 Write a byte to the serial port.
 ```javascript
@@ -146,6 +120,11 @@ Write bytes to the serial port.
 serial.writeBytes([0x01, 0x02, 0x03]);
 ```
 
+#### `Serial.writeCSV()`
+Write a CSV string to the serial port. We recommend using this function when you want to send multiple values at once.
+```javascript
+serial.writeCSV('hello,world'); // send arduino "hello,world\n"
+```
 
 ## for Developers
 
