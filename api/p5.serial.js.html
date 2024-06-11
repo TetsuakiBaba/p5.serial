@@ -49,9 +49,10 @@ class Serial {
      * Request to open serial port
      * 
      * @async
+     * @param {int}[9600] br - baud rate
      * 
      */
-    async begin() {
+    async begin(br = 9600) {
         const filters = [
             { usbVendorId: 0x10c4 }, // grove beginner kit for Arduino
             { usbVendorId: 0x2341 }, // ArduinoSA
@@ -61,13 +62,13 @@ class Serial {
         try {
             this.port = await navigator.serial.requestPort({ filters });
             this.portInfo = this.port.getInfo();
-            await this.port.open({ baudRate: 9600 });
+            await this.port.open({ baudRate: br });
             console.log(
                 `vendorId: ${this.portInfo.usbVendorId} | productId: ${this.portInfo.usbProductId} `
             );
             this.is_opened = true;
 
-            while (this.port.readable) {
+            while (this.port.readable &amp;&amp; this.is_opened) {
                 //console.log(port.readable);
                 const reader = this.port.readable.getReader();
                 try {
@@ -75,9 +76,10 @@ class Serial {
                         const { value, done } = await reader.read();
                         // Here we get serial value(value) from your arduino .
                         for (let v of value) {
-                            this.gotSerialValue(v);
+                            this.gotByte(v);
                         }
-                        this.gotSerialValues(value);
+                        this.gotBytes(value);
+                        if (this.is_opened == false) break;
                     }
                 } catch (error) {
                     // Handle |error|...
@@ -86,6 +88,7 @@ class Serial {
                     reader.releaseLock();
                 }
             }
+            this.port.close();
         } catch (ex) {
             if (ex.name === "NotFoundError") {
                 console.log("Device NOT found");
@@ -103,6 +106,22 @@ class Serial {
     async write(value) {
         const writer = this.port.writable.getWriter();
         await writer.write(new Int8Array([value]));
+        writer.releaseLock();
+    }
+
+    /**
+     * 
+     * @param {int} value 
+     */
+    async writeByte(value) {
+        const writer = this.port.writable.getWriter();
+        await writer.write(new Int8Array([value]));
+        writer.releaseLock();
+    }
+
+    async writeBytes(values) {
+        const writer = this.port.writable.getWriter();
+        await writer.write(new Int8Array(values));
         writer.releaseLock();
     }
 
@@ -127,20 +146,29 @@ class Serial {
         await writer.write(encoder.encode(values + "\n"));
         writer.releaseLock();
     }
+
+    /**
+     * Close serial port
+     * 
+     * @async
+     */
+    async close() {
+        this.is_opened = false;
+    }
     async read() { } // better to avoid using this method for arduino and p5 bigginers because it is a bit complicated to handle by themselves. Use callback function instead.
 
     /**
      * This method is called when a single value is received.
      * @param {int} value 
      */
-    gotSerialValue(value) {
+    gotByte(value) {
     }
 
     /**
      * This method is called when multiple values are received.
      * @param {array} values 
      */
-    gotSerialValues(values) {
+    gotBytes(values) {
     }
 }
 </code></pre></article></section></div></div></div><div class="search-container" id="PkfLWpAbet" style="display:none"><div class="wrapper" id="iCxFxjkHbP"><button class="icon-button search-close-button" id="VjLlGakifb" aria-label="close search"><svg><use xlink:href="#close-icon"></use></svg></button><div class="search-box-c"><svg><use xlink:href="#search-icon"></use></svg> <input type="text" id="vpcKVYIppa" class="search-input" placeholder="Search..." autofocus></div><div class="search-result-c" id="fWwVHRuDuN"><span class="search-result-c-text">Type anything to view search result</span></div></div></div><div class="mobile-menu-icon-container"><button class="icon-button" id="mobile-menu" data-isopen="false" aria-label="menu"><svg><use xlink:href="#menu-icon"></use></svg></button></div><div id="mobile-sidebar" class="mobile-sidebar-container"><div class="mobile-sidebar-wrapper"><div class="mobile-nav-links"></div><div class="mobile-sidebar-items-c"><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-classes"><div>Classes</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="Serial.html">Serial</a></div></div></div><div class="mobile-navbar-actions"><div class="navbar-right-item"><button class="icon-button search-button" aria-label="open-search"><svg><use xlink:href="#search-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button theme-toggle" aria-label="toggle-theme"><svg><use class="theme-svg-use" xlink:href="#light-theme-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button font-size" aria-label="change-font-size"><svg><use xlink:href="#font-size-icon"></use></svg></button></div></div></div></div><script type="text/javascript" src="scripts/core.min.js"></script><script src="scripts/search.min.js" defer="defer"></script><script src="scripts/third-party/fuse.js" defer="defer"></script><script type="text/javascript">var tocbotInstance=tocbot.init({tocSelector:"#eed4d2a0bfd64539bb9df78095dec881",contentSelector:".main-content",headingSelector:"h1, h2, h3",hasInnerContainers:!0,scrollContainer:".main-content",headingsOffset:130,onClick:bringLinkToView})</script></body></html>

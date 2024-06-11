@@ -47,9 +47,10 @@ class Serial {
      * Request to open serial port
      * 
      * @async
+     * @param {int}[9600] br - baud rate
      * 
      */
-    async begin() {
+    async begin(br = 9600) {
         const filters = [
             { usbVendorId: 0x10c4 }, // grove beginner kit for Arduino
             { usbVendorId: 0x2341 }, // ArduinoSA
@@ -59,7 +60,7 @@ class Serial {
         try {
             this.port = await navigator.serial.requestPort({ filters });
             this.portInfo = this.port.getInfo();
-            await this.port.open({ baudRate: 9600 });
+            await this.port.open({ baudRate: br });
             console.log(
                 `vendorId: ${this.portInfo.usbVendorId} | productId: ${this.portInfo.usbProductId} `
             );

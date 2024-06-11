@@ -13,9 +13,20 @@ p5.serial is a simple serial communication library for p5.js, which is using web
   * https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
 
 ## Getting Started
-
+First of all, please upload the sketch to your arduino device. 
+```cpp
+void setup() {
+  Serial.begin(9600);
+}
+int count = 0;
+void loop() {
+  Serial.writeByte(count);
+  count++;
+  delay(100);
+}
+```
 ### minimal style
-[DEMO page](https://tetsuakibaba.github.io/p5.serial/samples/minimal.html)
+Go to [DEMO page](https://tetsuakibaba.github.io/p5.serial/samples/minimal.html) and click the connect button. You will see the serial value on the page.
 
 `index.html`
 ```html:index.html
@@ -85,6 +96,51 @@ function draw(){
 </html>
 ```
 
+## API
+### Serial class
+#### `Serial()`
+Create a new Serial object.
+```javascript
+let serial = new Serial();
+```
+#### `Serial.begin()`
+Open the serial port.
+```javascript
+serial.begin();
+```
+
+#### `Serial.close()`
+Close the serial port.
+```javascript
+serial.close();
+```
+
+#### `Serial.gotByte()`
+This function is called when a byte is received.
+```javascript
+serial.gotByte = function(value) {
+    console.log(value);
+}
+```
+
+#### `Serial.gotBytes()`
+This function is called when bytes are received.
+```javascript
+serial.gotBytes = function(values) {
+    console.log(values);
+}
+```
+#### `Serial.writeByte()`
+Write a byte to the serial port.
+```javascript
+serial.writeByte(0x01);
+```
+
+#### `Serial.writeBytes()`
+Write bytes to the serial port.
+```javascript
+serial.writeBytes([0x01, 0x02, 0x03]);
+```
 
 
 ## for Developers
