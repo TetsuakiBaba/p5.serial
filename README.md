@@ -1,6 +1,9 @@
 # p5.serial
 p5.serial is a simple serial communication library for p5.js, which is using web serial on the backend, and designed to be easy to use and to work with the p5.js library. 
 
+> [!CAUTION]
+> This repository is currently under construction and may be frequently updated.
+
 ## CDN
 ```
 <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
@@ -13,6 +16,8 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 
 ### minimal style
 [DEMO page](https://tetsuakibaba.github.io/p5.serial/samples/minimal.html)
+
+`index.html`
 ```html:index.html
 <!DOCTYPE html>
 <html lang="en">
@@ -21,29 +26,28 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 </head>
 <body>
     <main>
-        <button id="button_connect">connect</button><br>
-        <button onclick="serial.close();">close</button><br>
+        <button onclick="mystart()">connect</button><br>
         <p>
             Serial value:
             <span id="serial_value"></span>
         </p>
     </main>
-     <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
+    <script src="../p5.serial.js" type="text/javascript"></script>
     <script>
         let serial = new Serial();
-        document.querySelector('#button_connect').addEventListener('click', () => {
+        function mystart() {
             serial.begin();
             serial.gotByte = function (value) {
                 document.querySelector('#serial_value').textContent = value;
             }
-        });
+        }
     </script>
 </body>
 </html>
 ```
 
 ### p5.js style
-
+`sketch.js`
 ```javascript:sketch.js
 let serial = Serial();
 let val = 0;
@@ -56,13 +60,13 @@ function setup() {
 function draw(){
     background(220);
     text(`Hello, p5.serial: ${val}`, 100, 100);
-    serial.gotSerialValue = function (value) {
+    serial.gotByte = function (value) {
         val = value;
     }
 }
 ```
 
-
+`index.html`
 ```html:index.html
 <!DOCTYPE html>
 <html lang="en">

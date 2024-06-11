@@ -7,8 +7,7 @@
 
 <body>
     <main>
-        <button id="button_connect">connect</button><br>
-        <button onclick="serial.close();">close</button><br>
+        <button onclick="mystart()">connect</button><br>
         <p>
             Serial value:
             <span id="serial_value"></span>
@@ -17,12 +16,12 @@
     <script src="../p5.serial.js" type="text/javascript"></script>
     <script>
         let serial = new Serial();
-        document.querySelector('#button_connect').addEventListener('click', () => {
+        function mystart() {
             serial.begin();
             serial.gotByte = function (value) {
                 document.querySelector('#serial_value').textContent = value;
             }
-        });
+        }
     </script>
 </body>
 
