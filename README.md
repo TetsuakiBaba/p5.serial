@@ -57,7 +57,7 @@ serial.gotBytes = function(values) {
 This function is called when a CSV string is received. We recommend using this function when you want to receive multiple values at once.
 
 ```javascript
-serial.gotBytes = function(values) {
+serial.gotCSV = function(values) {
     // if you send println('hello,world') from arduino, values is an array of number. ex) ['hello', 'world']    
     for( v of values){
         console.log(v); // hello, world
