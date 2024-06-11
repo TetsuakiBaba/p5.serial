@@ -7,6 +7,7 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 ```
 
 ## Usage
+sketch.js
 ```javascript sketch.js
 let serial = Serial();
 let val = 0;
@@ -23,7 +24,9 @@ function draw(){
         val = value;
     }
 }
+```
 
+index.html
 ```html index.html
 <!DOCTYPE html>
 <html lang="en">
