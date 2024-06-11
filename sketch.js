@@ -1,20 +1,19 @@
-var serial_values = [0];
+var x = 0;
 var serial = new Serial();
 
 function setup() {
     let canvas = createCanvas(200, 100);
     canvas.parent("canvasplaceholder");
+
+    serial.gotSerialValue = function (value) {
+        x = value;
+    }
 }
 
 function draw() {
     background(150);
-
     rectMode(CENTER);
-    rect(serial_values[0], height / 2, 20, 20);
-}
-
-function gotSerialValues(values) {
-    serial_values = values;
+    rect(x, height / 2, 20, 20);
 }
 
 function keyPressed() {

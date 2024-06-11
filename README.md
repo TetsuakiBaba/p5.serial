@@ -1,5 +1,5 @@
 # p5.serial
-p5.serial is a simple serial communication library for p5.js, designed to be easy to use and to work with the p5.js library. 
+p5.serial is a simple serial communication library for p5.js, which is using web serial on the backend, and designed to be easy to use and to work with the p5.js library. 
 
 ## CDN
 ```
@@ -9,7 +9,7 @@ p5.serial is a simple serial communication library for p5.js, designed to be eas
 ## Usage
 ```javascript sketch.js
 let serial = Serial();
-let values = [];
+let val = 0;
 function setup() {
   createCanvas(400, 400);
   document.querySelector('#button_connect").addEventListener('click', () => {
@@ -18,12 +18,11 @@ function setup() {
 }
 function draw(){
     background(220);
-    text(`Hello, p5.serial: ${values[0]}`, 100, 100);
+    text(`Hello, p5.serial: ${val}`, 100, 100);
+    serial.gotSerialValue = function (value) {
+        val = value;
+    }
 }
-function gotSerialValues(vals){
-    values = vals;
-}
-```
 
 ```html index.html
 <!DOCTYPE html>
@@ -42,5 +41,12 @@ function gotSerialValues(vals){
   </body>
 </html>
 
+```
+
+## for Developers
+
+### How to update API documentation
+```bash
+npm run generate-docs
 ```
 

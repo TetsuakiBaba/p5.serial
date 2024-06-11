@@ -47,7 +47,6 @@ class Serial {
      * Request to open serial port
      * 
      * @async
-     * @method begin
      * 
      */
     async begin() {
@@ -73,7 +72,10 @@ class Serial {
                     while (true) {
                         const { value, done } = await reader.read();
                         // Here we get serial value(value) from your arduino .
-                        gotSerialValues(value);
+                        for (let v of value) {
+                            this.gotSerialValue(v);
+                        }
+                        this.gotSerialValues(value);
                     }
                 } catch (error) {
                     // Handle |error|...
@@ -124,4 +126,18 @@ class Serial {
         writer.releaseLock();
     }
     async read() { } // better to avoid using this method for arduino and p5 bigginers because it is a bit complicated to handle by themselves. Use callback function instead.
+
+    /**
+     * This method is called when a single value is received.
+     * @param {int} value 
+     */
+    gotSerialValue(value) {
+    }
+
+    /**
+     * This method is called when multiple values are received.
+     * @param {array} values 
+     */
+    gotSerialValues(values) {
+    }
 }
