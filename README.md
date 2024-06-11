@@ -6,6 +6,9 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
 ```
 
+## Getting started with p5.js editor
+  * https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
+
 ## Usage
 sketch.js
 ```javascript sketch.js
@@ -45,8 +48,7 @@ index.html
 </html>
 ```
 
-## Getting started with p5.js editor
-  * https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
+
 
 ## for Developers
 
