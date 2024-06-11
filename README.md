@@ -26,7 +26,7 @@ void loop() {
 }
 ```
 ### minimal style
-Go to [DEMO page](https://tetsuakibaba.github.io/p5.serial/samples/minimal.html) and click the connect button. You will see the serial value on the page.
+Go to [DEMO page](https://tetsuakibaba.github.io/p5.serial/minimal.html) and click the connect button. You will see the serial value on the page.
 
 `index.html`
 ```html:index.html
