@@ -43,7 +43,11 @@ Go to [DEMO page](https://tetsuakibaba.github.io/p5.serial/samples/minimal.html)
             <span id="serial_value"></span>
         </p>
     </main>
-    <script src="../p5.serial.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
+
     <script>
         let serial = new Serial();
         function mystart() {
