@@ -9,15 +9,48 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 ## Getting started with p5.js editor
   * https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
 
-## Usage
-sketch.js
-```javascript sketch.js
+## Getting Started
+
+### minimal style
+[DEMO page](https://tetsuakibaba.github.io/p5.serial/samples/minimal.html)
+```html:index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <main>
+        <button id="button_connect">connect</button><br>
+        <button onclick="serial.close();">close</button><br>
+        <p>
+            Serial value:
+            <span id="serial_value"></span>
+        </p>
+    </main>
+     <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
+    <script>
+        let serial = new Serial();
+        document.querySelector('#button_connect').addEventListener('click', () => {
+            serial.begin();
+            serial.gotByte = function (value) {
+                document.querySelector('#serial_value').textContent = value;
+            }
+        });
+    </script>
+</body>
+</html>
+```
+
+### p5.js style
+
+```javascript:sketch.js
 let serial = Serial();
 let val = 0;
 function setup() {
   createCanvas(400, 400);
   document.querySelector('#button_connect").addEventListener('click', () => {
-    serial.connect();
+    serial.begin();
   });
 }
 function draw(){
@@ -29,8 +62,8 @@ function draw(){
 }
 ```
 
-index.html
-```html index.html
+
+```html:index.html
 <!DOCTYPE html>
 <html lang="en">
   <head>    

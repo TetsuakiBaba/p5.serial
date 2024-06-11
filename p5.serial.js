@@ -65,7 +65,7 @@ class Serial {
             );
             this.is_opened = true;
 
-            while (this.port.readable) {
+            while (this.port.readable && this.is_opened) {
                 //console.log(port.readable);
                 const reader = this.port.readable.getReader();
                 try {
@@ -73,9 +73,10 @@ class Serial {
                         const { value, done } = await reader.read();
                         // Here we get serial value(value) from your arduino .
                         for (let v of value) {
-                            this.gotSerialValue(v);
+                            this.gotByte(v);
                         }
-                        this.gotSerialValues(value);
+                        this.gotBytes(value);
+                        if (this.is_opened == false) break;
                     }
                 } catch (error) {
                     // Handle |error|...
@@ -84,6 +85,7 @@ class Serial {
                     reader.releaseLock();
                 }
             }
+            this.port.close();
         } catch (ex) {
             if (ex.name === "NotFoundError") {
                 console.log("Device NOT found");
@@ -101,6 +103,22 @@ class Serial {
     async write(value) {
         const writer = this.port.writable.getWriter();
         await writer.write(new Int8Array([value]));
+        writer.releaseLock();
+    }
+
+    /**
+     * 
+     * @param {int} value 
+     */
+    async writeByte(value) {
+        const writer = this.port.writable.getWriter();
+        await writer.write(new Int8Array([value]));
+        writer.releaseLock();
+    }
+
+    async writeBytes(values) {
+        const writer = this.port.writable.getWriter();
+        await writer.write(new Int8Array(values));
         writer.releaseLock();
     }
 
@@ -125,19 +143,28 @@ class Serial {
         await writer.write(encoder.encode(values + "\n"));
         writer.releaseLock();
     }
+
+    /**
+     * Close serial port
+     * 
+     * @async
+     */
+    async close() {
+        this.is_opened = false;
+    }
     async read() { } // better to avoid using this method for arduino and p5 bigginers because it is a bit complicated to handle by themselves. Use callback function instead.
 
     /**
      * This method is called when a single value is received.
      * @param {int} value 
      */
-    gotSerialValue(value) {
+    gotByte(value) {
     }
 
     /**
      * This method is called when multiple values are received.
      * @param {array} values 
      */
-    gotSerialValues(values) {
+    gotBytes(values) {
     }
 }
