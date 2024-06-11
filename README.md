@@ -43,8 +43,10 @@ index.html
     <script src="sketch.js"></script>
   </body>
 </html>
-
 ```
+
+## Getting started with p5.js editor
+  * https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
 
 ## for Developers
 
