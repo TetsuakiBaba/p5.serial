@@ -9,10 +9,11 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
 ```
 ## Getting Started from scratch
+https://github.com/TetsuakiBaba/p5.serial/assets/1846131/cf85b8d7-cef6-401d-8b90-3185b5cf8df5
 
 ## Getting Started with p5.js editor
-  * Single Byte receive: https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
-  * Multiple Bytes receive: https://editor.p5js.org/tetsuakibaba/sketches/bMXPV-gvu
+  * Single Byte receive(gotByte): https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
+  * Multiple Bytes receive(gotCSV): https://editor.p5js.org/tetsuakibaba/sketches/bMXPV-gvu
 
 
 
