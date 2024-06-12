@@ -9,7 +9,15 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
 ```
 ## Getting Started from scratch
-<div style="position: relative; padding-bottom: 74.89597780859917%; height: 0;"><iframe src="https://www.loom.com/embed/fa1db0134ec54e43a4b32b4eec9a8c86?sid=6b916d0c-f014-4436-86a3-286a120234c8" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div>
+    <a href="https://www.loom.com/share/fa1db0134ec54e43a4b32b4eec9a8c86">
+      <p>p5.serial Getting Started from scratch - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/fa1db0134ec54e43a4b32b4eec9a8c86">
+      <img style="max-width:600px;" src="https://cdn.loom.com/sessions/thumbnails/fa1db0134ec54e43a4b32b4eec9a8c86-with-play.gif">
+    </a>
+  </div>
+
 
 ## Getting Started with p5.js editor
   * Single Byte receive: https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
