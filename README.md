@@ -19,13 +19,13 @@ https://github.com/TetsuakiBaba/p5.serial/assets/1846131/cf85b8d7-cef6-401d-8b90
 
 ### More
 <!-- getting_started.md へのリンク -->
-Please check [ getting_started.md ](getting_started.md) for more sample code.
+Please check [ README on getting_started ](./getting_started/README.md) for more sample code.
 
 
 ## API
 ### Serial class
 > [!TIP]
-> Please check API document page for more detailed. 
+> Please check <a href="https://tetsuakibaba.github.io/p5.serial/api/Serial.html" target="_blank">API document page</a> for more detailed. 
 
 #### `Serial()`
 Create a new Serial object.
