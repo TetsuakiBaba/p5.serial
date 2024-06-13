@@ -54,7 +54,7 @@ void loop() {
 }
 ```
 
-## gotBytes: Gets multiple bytes from arduiono
+## gotBytes: Gets multiple bytes from arduino
 For defined data protocols, data may not be received in the correct format. In this case, use gotCSV.
 
 ![gotBytes](./gotBytes.gif)
@@ -113,7 +113,9 @@ void loop() {
 }
 ```
 
-## gotCSV: Gets CSV string from arduiono
+## gotCSV: Gets CSV string from arduino
+When you want to receive multiple values at once, we recommend using gotCSV.
+
 ![gotCSV](./gotCSV.gif)
 
 `index.html`
