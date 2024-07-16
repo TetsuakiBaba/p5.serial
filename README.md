@@ -1,9 +1,6 @@
 # p5.serial
 p5.serial is a simple serial communication library for p5.js, which is using web serial on the backend, and designed to be easy to use and to work with the p5.js library. 
 
-> [!CAUTION]
-> This repository is currently under construction and may be frequently updated.
-
 ## CDN
 ```
 <script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial/p5.serial.js" type="text/javascript"></script>
