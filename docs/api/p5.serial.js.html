@@ -131,10 +131,12 @@ class Serial {
                     }
                 } catch (error) {
                     // Handle |error|...
+                    console.log(error);
                     this.is_opened = false;
                 } finally {
                     reader.releaseLock();
                 }
+
             }
             this.port.close();
         } catch (ex) {
@@ -152,6 +154,7 @@ class Serial {
      * @param {int} value 
      */
     async write(value) {
+        if (this.is_opened == false) return;
         const writer = this.port.writable.getWriter();
         await writer.write(new Int8Array([value]));
         writer.releaseLock();
@@ -162,12 +165,14 @@ class Serial {
      * @param {int} value 
      */
     async writeByte(value) {
+        if (this.is_opened == false) return;
         const writer = this.port.writable.getWriter();
         await writer.write(new Int8Array([value]));
         writer.releaseLock();
     }
 
     async writeBytes(values) {
+        if (this.is_opened == false) return;
         const writer = this.port.writable.getWriter();
         await writer.write(new Int8Array(values));
         writer.releaseLock();
@@ -175,16 +180,14 @@ class Serial {
 
 
     async writeCSV(string) {
+        if (this.is_opened == false) return;
 
-        // もし文字列が空であればなにもしない
-        // do nothing if the string is empty.
-        if (string == "") {
+        // もし文字列が空であれば何もしない
+        if (string === "") {
             return;
         }
-
         // もし最後が改行でない場合は改行を追加する
-        // add '\n' if the last character is not '\n'.
-        if (string.charAt(string.length - 1) != "\n") {
+        if (string.charAt(string.length - 1) !== "\n") {
             string += "\n";
             console.warn("added '\n'. because the last character is not '\n'.");
         }
@@ -193,6 +196,7 @@ class Serial {
         await writer.write(new TextEncoder().encode(string));
         writer.releaseLock();
     }
+
     /**
      * 
      * @param {string} values 
