@@ -29,7 +29,7 @@ Create a new Serial object.
 ```javascript
 let serial = new Serial();
 ```
-#### `Serial.begin()`
+#### `Serial.begin(baudrate=9600)`
 Open the serial port.
 ```javascript
 serial.begin();
