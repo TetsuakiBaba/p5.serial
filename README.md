@@ -17,9 +17,9 @@ https://github.com/TetsuakiBaba/p5.serial/assets/1846131/cf85b8d7-cef6-401d-8b90
   * Single Byte receive(gotByte): https://editor.p5js.org/tetsuakibaba/sketches/EgLpDNrFq
   * Multiple Bytes receive(gotCSV): https://editor.p5js.org/tetsuakibaba/sketches/bMXPV-gvu
 
-### More
+## Examples
 <!-- getting_started.md へのリンク -->
-Please check [ README on getting_started ](./getting_started/README.md) for more sample code.
+Please check [ README on getting_started ](./getting_started/README.md) for more example codes.
 
 
 ## API
