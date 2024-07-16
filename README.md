@@ -6,7 +6,7 @@ p5.serial is a simple serial communication library for p5.js, which is using web
 
 ## CDN
 ```
-<script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial.js/p5.serial.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/TetsuakiBaba/p5.serial/p5.serial.js" type="text/javascript"></script>
 ```
 
 ## Getting Started
