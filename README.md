@@ -18,8 +18,10 @@ https://github.com/TetsuakiBaba/p5.serial/assets/1846131/cf85b8d7-cef6-401d-8b90
 <!-- getting_started.md へのリンク -->
 Please check [ README on getting_started ](./getting_started/README.md) for more example codes.
 
-## APP
-    * [p5SerialMonitor](https://tetsuakibaba.github.io/p5.serial/)
+## DEMO
+  * [introduction](https://tetsuakibaba.github.io/p5.serial/)
+  * [monitor](https://tetsuakibaba.github.io/p5.serial/monitor.html)
+  * [minimal](https://tetsuakibaba.github.io/p5.serial/minimal.html)
 
 ## API
 ### Serial class
