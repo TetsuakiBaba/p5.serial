@@ -21,6 +21,12 @@
             </div>
         </div>
         <div class="row">
+            <!-- warning  -->
+            <div class="alert alert-warning" role="alert">
+                <i class="fs-4 me-2 bi bi-cone-striped"></i>
+                p5.serial only works with the Chrome browser. Please use Chromium-based browsers such as Chrome,
+                Edge, or Opera.
+            </div>
             <div class="col-6">
                 <p class="">
                     Please connect your Arduino to your computer and upload the "<kbd>Arduino Code(sample.ino)</kbd>"
@@ -28,12 +34,13 @@
                     Then click the
                     "Connect" button on the right side to start communicating with your Arduino.
                 </p>
-                <!-- warning  -->
-                <div class="alert alert-warning" role="alert">
-                    <i class="fs-4 me-2 bi bi-cone-striped"></i>
-                    p5.serial only works with the Chrome browser. Please use Chromium-based browsers such as Chrome,
-                    Edge, or Opera.
-                </div>
+                <ul>
+                    Other examples:
+                    <li><a href="minimal.html" target="_blank">minimal</a>: minimal example to get serial byte data</li>
+                    <li> <a href="monitor.html" target="_blank">monitor</a>: serial monitor which is made with
+                        p5.serial, including CSV data logger funciton.</li>
+                </ul>
+
             </div>
             <div class="col-6">
                 <div class="alert alert-primary" role="alert">
@@ -116,7 +123,7 @@ void setup() {
 
 
 
-    <script src="./p5.serial.js"></script>
+    <script src="../p5.serial.js"></script>
     <script>
         // sketch.jsのファイルの内容を #sketch.js dom　に表示する
         document.getElementById('sketch.js').innerHTML = `

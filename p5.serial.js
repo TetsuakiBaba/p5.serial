@@ -70,14 +70,16 @@ class Serial {
             { usbVendorId: 0x2341 }, // ArduinoSA
             { usbVendorId: 0x9025 }, // Marduino
         ];
-
+        console.log("baudrate", br);
         try {
             this.port = await navigator.serial.requestPort({ filters });
             this.portInfo = this.port.getInfo();
-            await this.port.open({ baudRate: br });
             console.log(
                 `vendorId: ${this.portInfo.usbVendorId} | productId: ${this.portInfo.usbProductId} `
             );
+            await this.port.open({ baudRate: br });
+
+
             this.is_opened = true;
             this.buffer = "";
             while (this.port.readable && this.is_opened) {
